@@ -1,11 +1,11 @@
-//Tests for the BlockCypher Go SDK. Test functions
-//try to mirror file names where possible.
+// Tests for the BlockCypher Go SDK. Test functions
+// try to mirror file names where possible.
 package gobcy
 
 import (
 	"fmt"
+	"github.com/shopspring/decimal"
 	"log"
-	"math/big"
 	"os"
 	"testing"
 	"time"
@@ -42,8 +42,8 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
-//TestsGetTXConf runs first, to test
-//Confidence factor
+// TestsGetTXConf runs first, to test
+// Confidence factor
 func TestGetTXConf(t *testing.T) {
 	conf, err := bcy.GetTXConf(txhash2)
 	if err != nil {
@@ -211,7 +211,7 @@ func TestTX(t *testing.T) {
 	}
 	t.Logf("%+v\n", tx)
 	//Create New TXSkeleton
-	temp := TempNewTX(keys2.Address, keys1.Address, *big.NewInt(45000))
+	temp := TempNewTX(keys2.Address, keys1.Address, decimal.NewFromInt(45000))
 	skel, err := bcy.NewTX(temp, true)
 	if err != nil {
 		t.Error("NewTX error encountered: ", err)
@@ -308,7 +308,7 @@ func TestAsset(t *testing.T) {
 	if err != nil {
 		t.Error("Faucet error encountered: ", err)
 	}
-	tx1, err := bcy.IssueAsset(OAPIssue{funder.Private, oap1.OAPAddress, *big.NewInt(9000), ""})
+	tx1, err := bcy.IssueAsset(OAPIssue{funder.Private, oap1.OAPAddress, decimal.NewFromInt(9000), ""})
 	if err != nil {
 		t.Error("IssueAsset error encountered: ", err)
 	}
@@ -327,7 +327,7 @@ func TestAsset(t *testing.T) {
 		fmt.Printf(".")
 		time.Sleep(2 * time.Second)
 	}
-	tx2, err := bcy.TransferAsset(OAPIssue{oap1.Private, oap2.OAPAddress, *big.NewInt(8999), ""}, tx1.AssetID)
+	tx2, err := bcy.TransferAsset(OAPIssue{oap1.Private, oap2.OAPAddress, decimal.NewFromInt(8999), ""}, tx1.AssetID)
 	if err != nil {
 		t.Error("TransferAsset error encountered: ", err)
 		t.Errorf("Returned OAPTX1:%+v\n", tx1)
